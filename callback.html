@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>TikTok OAuth Callback</title>
+  <script>
+    // URL의 code 파라미터를 로컬 서버로 전달
+    const params = new URLSearchParams(window.location.search);
+    const code  = params.get('code');
+    const state = params.get('state');
+    if (code) {
+      fetch('http://localhost:8765/callback?' + window.location.search)
+        .then(() => {
+          document.getElementById('msg').textContent = '✅ 인증 완료. 이 창을 닫아주세요.';
+        })
+        .catch(() => {
+          // 로컬 서버가 이미 코드를 받은 경우
+          document.getElementById('msg').textContent = '✅ 인증 완료. 이 창을 닫아주세요.';
+        });
+    } else {
+      document.getElementById('msg').textContent = '❌ 코드를 받지 못했습니다.';
+    }
+  </script>
+</head>
+<body>
+  <h2 id="msg">처리 중...</h2>
+</body>
+</html>
